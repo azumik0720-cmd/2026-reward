@@ -78,7 +78,7 @@ body::after{
 
 /* ── マススクロールレーン ── */
 .road-lane{
-  position:absolute;bottom:10px;left:0;right:0;height:28px;
+  position:absolute;bottom:8px;left:0;right:0;height:28px;
   overflow:hidden;
 }
 .road-track{
@@ -110,7 +110,7 @@ body::after{
 /* ── TABS ── */
 .tabs{display:flex;flex-shrink:0;background:var(--paper);border-bottom:1px solid var(--ink3);}
 .tab{flex:1;padding:12px 6px 10px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.05em;color:var(--ink2);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
-.tab.active{color:var(--ink);border-bottom-color:var(--red);font-size:13px;}
+.tab.active{color:var(--red);border-bottom-color:var(--red);font-size:13px;}
 .tab svg{transition:transform .2s;}
 .tab.active svg{transform:scale(1.15);}
 .tab svg{flex-shrink:0;}
@@ -137,7 +137,8 @@ body::after{
 .bh-person{display:flex;align-items:center;gap:6px;}
 .bh-person:first-child{border-right:1px solid var(--ink3);padding-right:12px;}
 .bh-person:last-child{padding-left:12px;}
-.bh-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.bh-dot{display:none;}
+.bh-char{width:32px;height:32px;object-fit:contain;flex-shrink:0;}
 .bh-name{font-size:11px;font-weight:800;letter-spacing:.04em;}
 .bh-cnt{margin-left:auto;font-size:10px;font-weight:800;color:var(--ink2);font-variant-numeric:tabular-nums;}
 
@@ -177,7 +178,7 @@ body::after{
 .chk svg{opacity:0;transition:opacity .15s;display:block;}
 .chk.az svg,.chk.sh svg{opacity:1;}
 
-.goal-text{font-size:11px;font-weight:600;line-height:1.35;flex:1;transition:color .2s;word-break:break-all;}
+.goal-text{font-size:11px;font-weight:600;line-height:1.35;flex:1;transition:color .2s;word-break:break-all;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;min-height:2.7em;}
 .goal-text.done{color:var(--ink2);text-decoration:line-through;}
 
 /* ══════════════════════
@@ -348,12 +349,12 @@ body::after{
     <div class="board-wrap">
       <div class="board-header">
         <div class="bh-person">
-          <div class="bh-dot" style="background:var(--red)"></div>
+          <img class="bh-char" src="./azumi.PNG" alt="亜純"/>
           <div class="bh-name">亜純</div>
           <div class="bh-cnt" id="cnt-az">0/20</div>
         </div>
         <div class="bh-person">
-          <div class="bh-dot" style="background:var(--blue)"></div>
+          <img class="bh-char" src="./shoma.PNG" alt="翔馬"/>
           <div class="bh-name">翔馬</div>
           <div class="bh-cnt" id="cnt-sh">0/20</div>
         </div>
