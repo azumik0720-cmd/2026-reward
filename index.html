@@ -132,17 +132,18 @@ body::after{
   border-bottom:none;
   padding:10px 14px 0;
   gap:0;
+  align-items:end;
 }
-.bh-person{display:flex;align-items:center;gap:6px;}
+.bh-person{display:flex;align-items:flex-end;gap:6px;padding-bottom:0;}
 .bh-person:first-child{border-right:1px solid var(--ink3);padding-right:12px;}
 .bh-person:last-child{padding-left:12px;}
 .bh-dot{display:none;}
-.bh-char{width:52px;height:68px;object-fit:contain;object-position:top;flex-shrink:0;position:relative;z-index:0;margin-bottom:-36px;}
+.bh-char{width:52px;height:68px;object-fit:contain;object-position:top;flex-shrink:0;}
 .bh-name{font-size:11px;font-weight:800;letter-spacing:.04em;}
 .bh-cnt{margin-left:auto;font-size:10px;font-weight:800;color:var(--ink2);font-variant-numeric:tabular-nums;}
 
 /* category section */
-.cat-section{margin:8px 10px 0;border-radius:10px;overflow:hidden;background:var(--white);position:relative;z-index:2;}
+.cat-section{margin:0 10px 0;border-radius:10px;overflow:hidden;background:var(--white);position:relative;z-index:2;}
 .cat-section + .cat-section{margin-top:6px;}
 
 .cat-header{
@@ -703,7 +704,9 @@ function renderRoad(t){
   const divCount = Math.floor(t / 10);
   // padding-left:50vwで中央を原点にしているため、
   // t個進んだ分だけ左にずらす（原点からのマイナスオフセット）
-  const offset = -(t * STEP_W + divCount * 7);
+  // キャラ中央（50vw）からアクティブマス中心が来るよう、マス幅半分だけ左にずらす
+  const charOffset = 21; // マス幅42の半分
+  const offset = -(t * STEP_W + divCount * 7) + charOffset;
   track.style.transform = 'translateX(' + offset + 'px)';
 }
 
