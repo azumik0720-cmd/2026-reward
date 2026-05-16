@@ -90,7 +90,7 @@ body::after{
   will-change:transform;
 }
 .road-step{
-  width:28px;height:28px;flex-shrink:0;border-radius:6px;
+  width:42px;height:28px;flex-shrink:0;border-radius:6px;
   background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);
   transition:background .3s,border-color .3s;
 }
@@ -129,20 +129,20 @@ body::after{
   display:grid;grid-template-columns:1fr 1fr;
   position:sticky;top:0;z-index:10;
   background:var(--bg);
-  border-bottom:1px solid var(--ink3);
-  padding:10px 14px 8px;
+  border-bottom:none;
+  padding:10px 14px 0;
   gap:0;
 }
 .bh-person{display:flex;align-items:center;gap:6px;}
 .bh-person:first-child{border-right:1px solid var(--ink3);padding-right:12px;}
 .bh-person:last-child{padding-left:12px;}
 .bh-dot{display:none;}
-.bh-char{width:52px;height:62px;object-fit:contain;object-position:bottom;flex-shrink:0;margin-bottom:-12px;margin-top:-12px;}
+.bh-char{width:52px;height:68px;object-fit:contain;object-position:top;flex-shrink:0;position:relative;z-index:0;margin-bottom:-36px;}
 .bh-name{font-size:11px;font-weight:800;letter-spacing:.04em;}
 .bh-cnt{margin-left:auto;font-size:10px;font-weight:800;color:var(--ink2);font-variant-numeric:tabular-nums;}
 
 /* category section */
-.cat-section{margin:8px 10px 0;border-radius:10px;overflow:hidden;background:var(--white);}
+.cat-section{margin:8px 10px 0;border-radius:10px;overflow:hidden;background:var(--white);position:relative;z-index:2;}
 .cat-section + .cat-section{margin-top:6px;}
 
 .cat-header{
@@ -155,12 +155,12 @@ body::after{
 .cat-rows{display:grid;grid-template-columns:1fr 1fr;}
 
 /* goal row — 各カラム */
-.goal-col-wrap{padding:2px 6px 4px;}
+.goal-col-wrap{padding:4px 6px;}
 .goal-col-wrap:first-child{border-right:0.5px solid var(--ink3);}
 
 .goal{
   display:flex;align-items:center;gap:8px;
-  padding:7px 10px;border-radius:7px;
+  padding:8px 10px;border-radius:7px;
   cursor:pointer;transition:background .15s;
   -webkit-user-select:none;
 }
@@ -177,7 +177,7 @@ body::after{
 .chk svg{opacity:0;transition:opacity .15s;display:block;}
 .chk.az svg,.chk.sh svg{opacity:1;}
 
-.goal-text{font-size:11px;font-weight:600;line-height:1.35;flex:1;transition:color .2s;word-break:break-all;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;min-height:2.7em;}
+.goal-text{font-size:11px;font-weight:600;line-height:1.35;flex:1;transition:color .2s;word-break:break-all;}
 .goal-text.done{color:var(--ink2);text-decoration:line-through;}
 
 /* ══════════════════════
@@ -670,7 +670,7 @@ function toggle(p,id){
 // ── FIELD ──
 function totalDone(){return goals.az.filter(g=>g.done).length+goals.sh.filter(g=>g.done).length;}
 // マス1個の幅 + gap (CSS値と合わせる)
-const STEP_W = 31; // 28px + 3px gap
+const STEP_W = 45; // 42px + 3px gap
 
 function updateField(){
   const t = totalDone();
