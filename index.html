@@ -189,8 +189,8 @@ body::after{
 .monthly-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;}
 .monthly-note{font-size:9px;color:var(--ink2);font-weight:600;}
 .monthly-bars{display:flex;align-items:flex-end;gap:3px;height:56px;}
-.m-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.m-track{width:100%;flex:1;background:var(--bg);border-radius:3px 3px 0 0;display:flex;align-items:flex-end;}
+.m-col{flex:1;height:100%;display:flex;flex-direction:column;align-items:center;}
+.m-track{width:100%;height:100%;background:var(--bg);border-radius:3px 3px 0 0;display:flex;align-items:flex-end;}
 .m-fill{width:100%;border-radius:3px 3px 0 0;background:var(--green);opacity:.35;transition:height .7s ease;min-height:2px;}
 .m-lbl{font-size:7px;font-weight:700;color:var(--ink2);}
 .reward-tame{display:flex;flex-direction:column;align-items:center;padding:48px 0 60px;gap:12px;min-height:60vh;justify-content:center;}
@@ -457,8 +457,8 @@ body::after{
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  SUPABASE（ここを書き換える）
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const SUPABASE_URL = 'https://ohqgpmtkhhixvnkrjbvb.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ocWdwbXRraGhpeHZua3JqYnZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDE4MjEsImV4cCI6MjA5MTg3NzgyMX0.tkm8eT9FCWGmKXPPVeDV6L6STEQ_jVnrNkcGDbRtSCg';
+const SUPABASE_URL = 'ここにProject URL';
+const SUPABASE_KEY = 'ここにanon key';
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:false}
 });
