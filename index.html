@@ -130,19 +130,31 @@ body::after{
   position:sticky;top:0;z-index:10;
   background:var(--bg);
   border-bottom:none;
+<<<<<<< HEAD
+  padding:4px 0 0; /* 上余白はここで調整 */
+=======
   padding:15px 12px 0; /* ⑤ 上paddingなし */
+>>>>>>> c94fdcf1fb5006f64089ed44a0efc2cfabac648a
   gap:0;
-  overflow:visible; /* ③ キャラはみ出し許可 */
-  min-height:72px;
+  overflow:visible;
 }
+<<<<<<< HEAD
+.bh-person{display:flex;align-items:flex-end;gap:8px;flex:1;padding:0 12px;}
+.bh-person-right{flex-direction:row-reverse;justify-content:flex-start;}
+=======
 .bh-person{display:flex;align-items:flex-end;gap:8px;flex:1;}
 .bh-person-right{justify-content:flex-end;flex-direction:row-reverse;}
+>>>>>>> c94fdcf1fb5006f64089ed44a0efc2cfabac648a
 .bh-info{display:flex;flex-direction:column;gap:4px;}
 .bh-info-right{align-items:flex-end;}
-.bh-person:first-child{border-right:none;padding-right:12px;} /* ⑥ 縦線削除 */
-.bh-person:last-child{padding-left:12px;}
+.bh-person:first-child{border-right:none;}
 .bh-dot{display:none;}
+<<<<<<< HEAD
+/* キャラ：margin-bottomをゼロにしてはみ出しなし */
+.bh-char{width:64px;height:80px;object-fit:contain;object-position:top;flex-shrink:0;margin-bottom:0;}
+=======
 .bh-char{width:64px;height:80px;object-fit:contain;object-position:top;flex-shrink:0;margin-bottom:0px;} /* ③ キャラはみ出し */
+>>>>>>> c94fdcf1fb5006f64089ed44a0efc2cfabac648a
 .bh-name{font-size:18px;font-weight:800;letter-spacing:.04em;color:var(--ink);}
 .bh-countdown{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 8px 10px;gap:2px;flex-shrink:0;}
 .bh-cd-label{font-size:9px;color:#888;letter-spacing:.06em;white-space:nowrap;}
@@ -376,11 +388,11 @@ body::after{
           </div>
         </div>
         <div class="bh-person bh-person-right">
+          <img class="bh-char" src="./shoma2.PNG" alt="翔馬"/>
           <div class="bh-info bh-info-right">
             <div class="bh-cnt bh-cnt-sh" id="cnt-sh">0/20</div>
             <div class="bh-name">翔馬</div>
           </div>
-          <img class="bh-char" src="./shoma2.PNG" alt="翔馬"/>
         </div>
       </div>
       <div id="board-body"></div>
