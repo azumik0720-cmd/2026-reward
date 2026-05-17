@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>2026 Goal Challenge</title>
+<title>2026 REWARD</title>
+<link rel="icon" href="./icon.png">
+<link rel="apple-touch-icon" href="./icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="2026 REWARD">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -457,8 +462,8 @@ body::after{
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  SUPABASE（ここを書き換える）
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const SUPABASE_URL = 'https://ohqgpmtkhhixvnkrjbvb.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ocWdwbXRraGhpeHZua3JqYnZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDE4MjEsImV4cCI6MjA5MTg3NzgyMX0.tkm8eT9FCWGmKXPPVeDV6L6STEQ_jVnrNkcGDbRtSCg';
+const SUPABASE_URL = 'ここにProject URL';
+const SUPABASE_KEY = 'ここにanon key';
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:false}
 });
