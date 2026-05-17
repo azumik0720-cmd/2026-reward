@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>2026 Goal Challenge</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{
@@ -22,6 +23,36 @@ body::after{
   opacity:1;mix-blend-mode:multiply;
 }
 
+/* ── LOGIN ── */
+#login-screen{
+  position:fixed;inset:0;z-index:500;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 32px calc(40px + env(safe-area-inset-bottom));
+}
+#login-screen.hidden{display:none;}
+.login-title{font-size:22px;font-weight:800;letter-spacing:.04em;margin-bottom:6px;}
+.login-sub{font-size:13px;color:var(--ink2);font-weight:600;margin-bottom:32px;}
+.login-field{width:100%;margin-bottom:12px;}
+.login-label{font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin-bottom:6px;display:block;}
+.login-input{
+  width:100%;padding:13px 14px;border-radius:8px;
+  border:1.5px solid var(--ink3);
+  font-family:var(--font);font-size:15px;font-weight:600;
+  background:var(--white);color:var(--ink);outline:none;
+  transition:border-color .2s;
+}
+.login-input:focus{border-color:var(--green);}
+.login-btn{
+  width:100%;padding:14px;border-radius:8px;border:none;
+  background:var(--green);color:#fff;
+  font-family:var(--font);font-size:15px;font-weight:800;
+  cursor:pointer;margin-top:8px;
+  transition:opacity .15s;
+}
+.login-btn:active{opacity:.75;}
+.login-err{font-size:12px;color:var(--red);font-weight:700;margin-top:10px;min-height:18px;text-align:center;}
+
 /* ── FIELD ── */
 .field{
   flex-shrink:0;height:220px;position:relative;overflow:hidden;
@@ -29,18 +60,14 @@ body::after{
 }
 .field-bg{
   position:absolute;inset:0;
-  background-size:cover;
-  background-position:center bottom;
-  background-repeat:no-repeat;
-  opacity:0;transition:opacity .7s ease;
-  pointer-events:none;
+  background-size:cover;background-position:center bottom;background-repeat:no-repeat;
+  opacity:0;transition:opacity .7s ease;pointer-events:none;
 }
 .field-bg.active{opacity:1;}
 .field-bg[data-s="spring"]{background-image:url('./Spring.png');}
 .field-bg[data-s="summer"]{background-image:url('./Summer.png');}
 .field-bg[data-s="autumn"]{background-image:url('./Autum.png');}
 .field-bg[data-s="winter"]{background-image:url('./Winter.png');}
-
 .field-season{
   position:absolute;top:10px;left:14px;
   font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
@@ -54,16 +81,11 @@ body::after{
   font-size:11px;font-weight:800;color:var(--ink);
   z-index:6;border:1px solid rgba(255,255,255,.5);
 }
-
-/* ── キャラクター ── */
 .char-fixed{
   position:absolute;left:50%;transform:translateX(-50%);bottom:28px;z-index:10;
   width:88px;height:100px;
 }
-.char-fixed img{
-  width:100%;height:100%;object-fit:contain;
-  animation:float 2.4s ease-in-out infinite;
-}
+.char-fixed img{width:100%;height:100%;object-fit:contain;animation:float 2.4s ease-in-out infinite;}
 .char-fixed img.walk{animation:walk .45s ease-in-out 2;}
 @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
 @keyframes walk{
@@ -71,17 +93,11 @@ body::after{
   25%{transform:translateY(-6px) scaleX(1.04);}
   75%{transform:translateY(-2px) scaleX(.97);}
 }
-
-/* ── マススクロールレーン ── */
-.road-lane{
-  position:absolute;bottom:20px;left:0;right:0;height:28px;
-  overflow:hidden;
-}
+.road-lane{position:absolute;bottom:20px;left:0;right:0;height:28px;overflow:hidden;}
 .road-track{
   display:flex;align-items:center;gap:3px;
   transition:transform .65s cubic-bezier(.4,0,.2,1);
-  padding-left:0;padding-right:16px;
-  will-change:transform;
+  padding-left:0;padding-right:16px;will-change:transform;
 }
 .road-step{
   width:42px;height:28px;flex-shrink:0;border-radius:6px;
@@ -92,7 +108,7 @@ body::after{
 .road-step.current{background:#fff;border-color:#fff;box-shadow:0 0 0 2.5px rgba(255,255,255,.55);}
 .road-div{width:1.5px;height:22px;flex-shrink:0;background:rgba(255,255,255,.5);border-radius:1px;margin:0 2px;}
 
-/* ── TABS ── ②緑に変更 */
+/* ── TABS ── */
 .tabs{display:flex;flex-shrink:0;background:var(--paper);border-bottom:1px solid var(--ink3);}
 .tab{flex:1;padding:12px 6px 10px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.05em;color:var(--ink2);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
 .tab.active{color:var(--green);border-bottom-color:var(--green);font-size:13px;}
@@ -104,110 +120,72 @@ body::after{
 .page{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none;}
 .page.active{display:block;}
 
-/* ══════════════════════
-   BOARD
-══════════════════════ */
+/* ══ BOARD ══ */
 .board-wrap{padding-bottom:calc(20px + env(safe-area-inset-bottom));}
-
-/* sticky person header */
 .board-header{
   display:flex;align-items:flex-end;
   position:sticky;top:0;z-index:10;
-  background:var(--bg);
-  border-bottom:none;
-  padding:15px 0 0;
-  gap:0;
-  overflow:visible;
+  background:var(--bg);border-bottom:none;
+  padding:15px 0 0;gap:0;overflow:visible;
 }
 .bh-person{display:flex;align-items:flex-end;gap:8px;flex:1;padding:0 12px;}
 .bh-person-right{flex-direction:row-reverse;justify-content:flex-start;}
-.bh-info{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding-bottom:8px;} /* ①左揃え */
-.bh-info-right{align-items:flex-end;} /* ①右揃え */
-.bh-dot{display:none;}
+.bh-info{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding-bottom:8px;}
+.bh-info-right{align-items:flex-end;}
 .bh-char{width:64px;height:80px;object-fit:contain;object-position:top;flex-shrink:0;margin-bottom:0;}
 .bh-name{font-size:18px;font-weight:800;letter-spacing:.04em;color:var(--ink);}
 .bh-countdown{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 8px 10px;gap:2px;flex-shrink:0;}
 .bh-cd-label{font-size:9px;color:#888;letter-spacing:.06em;white-space:nowrap;}
 .bh-cd-row{display:flex;align-items:baseline;gap:4px;}
-.bh-cd-pre{font-size:13px;font-weight:700;color:var(--green);} /* ③緑 */
-.bh-cd-days{font-size:32px;font-weight:800;color:var(--green);line-height:1;} /* ③緑 */
-.bh-cd-unit{font-size:13px;font-weight:700;color:var(--green);} /* ③緑 */
+.bh-cd-pre{font-size:13px;font-weight:700;color:var(--green);}
+.bh-cd-days{font-size:32px;font-weight:800;color:var(--green);line-height:1;}
+.bh-cd-unit{font-size:13px;font-weight:700;color:var(--green);}
 .bh-cnt{font-size:9px;font-weight:800;padding:2px 8px;border-radius:99px;display:inline-block;color:#fff;width:fit-content;}
 .bh-cnt-az{background:var(--red);}
 .bh-cnt-sh{background:var(--blue);}
 
-/* category section */
 .cat-section{margin:0 10px 0;border-radius:10px;overflow:hidden;background:var(--white);position:relative;z-index:1;}
-.cat-section + .cat-section{margin-top:6px;}
-
-.cat-header{
-  padding:7px 12px 6px;
-  font-size:8px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--ink2);
-  border-bottom:0.5px solid var(--ink3);
-}
-
+.cat-section+.cat-section{margin-top:6px;}
+.cat-header{padding:7px 12px 6px;font-size:8px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);border-bottom:0.5px solid var(--ink3);}
 .cat-rows{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;}
 .goal-col-wrap{padding:4px 6px;display:flex;align-items:center;}
 .goal-col-wrap:first-child{border-right:0.5px solid var(--ink3);}
-
-.goal{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 10px;border-radius:7px;
-  cursor:pointer;transition:background .15s;
-  -webkit-user-select:none;
-}
+.goal{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;cursor:pointer;transition:background .15s;-webkit-user-select:none;}
 .goal:active{background:var(--ink4);}
-
-.chk{
-  width:16px;height:16px;min-width:16px;border-radius:4px;
-  border:1.5px solid var(--ink3);
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:all .2s;
-}
+.chk{width:16px;height:16px;min-width:16px;border-radius:4px;border:1.5px solid var(--ink3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
 .chk.az{background:var(--red);border-color:var(--red);}
 .chk.sh{background:var(--blue);border-color:var(--blue);}
 .chk svg{opacity:0;transition:opacity .15s;display:block;}
 .chk.az svg,.chk.sh svg{opacity:1;}
-
 .goal-text{font-size:11px;font-weight:600;line-height:1.35;flex:1;transition:color .2s;word-break:break-all;}
 .goal-text.done{color:var(--ink2);text-decoration:line-through;}
 
-/* ══════════════════════
-   REWARD PAGE
-══════════════════════ */
+/* ══ REWARD ══ */
 #page-reward{background:var(--bg);}
-
 .lock-screen{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 30px;text-align:center;gap:14px;}
 .lock-icon{width:64px;height:64px;background:var(--paper);border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--ink3);cursor:pointer;}
 .lock-title{font-size:20px;font-weight:800;}
 .lock-sub{font-size:13px;color:var(--ink2);font-weight:600;line-height:1.7;}
 .lock-hint{font-size:10px;color:var(--ink2);opacity:.5;}
-
 .reward-content{display:none;padding:14px 14px 0;}
 .reward-content.on{display:block;}
-
 .r-section{background:var(--white);border-radius:var(--r);padding:16px;margin-bottom:10px;border:1px solid var(--ink3);}
 .r-label{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-bottom:12px;}
-
 .stats-row{display:flex;gap:8px;}
 .stat-box{flex:1;background:var(--bg);border-radius:8px;padding:10px 10px 8px;text-align:center;}
 .stat-num{font-size:28px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;}
 .stat-sub{font-size:9px;color:var(--ink2);font-weight:700;margin-top:3px;}
-
 .bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
 .bar-row:last-child{margin-bottom:0;}
 .bar-label{font-size:10px;font-weight:700;color:var(--ink2);width:64px;flex-shrink:0;}
 .bar-track{flex:1;height:8px;background:var(--bg);border-radius:99px;overflow:hidden;}
 .bar-fill{height:100%;border-radius:99px;transition:width .8s ease;}
 .bar-val{font-size:10px;font-weight:800;width:28px;text-align:right;flex-shrink:0;}
-
 .pie-wrap{display:flex;align-items:center;justify-content:center;gap:24px;}
 .pie-legend{display:flex;flex-direction:column;gap:12px;}
 .pie-leg{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;}
 .pie-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 .pie-leg-pct{margin-left:8px;font-size:18px;font-weight:800;}
-
 .monthly-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;}
 .monthly-note{font-size:9px;color:var(--ink2);font-weight:600;}
 .monthly-bars{display:flex;align-items:flex-end;gap:3px;height:56px;}
@@ -215,31 +193,25 @@ body::after{
 .m-track{width:100%;flex:1;background:var(--bg);border-radius:3px 3px 0 0;display:flex;align-items:flex-end;}
 .m-fill{width:100%;border-radius:3px 3px 0 0;background:var(--green);opacity:.35;transition:height .7s ease;min-height:2px;}
 .m-lbl{font-size:7px;font-weight:700;color:var(--ink2);}
-
-.reward-tame{
-  display:flex;flex-direction:column;align-items:center;
-  padding:48px 0 60px;gap:12px;min-height:60vh;justify-content:center;
-}
+.reward-tame{display:flex;flex-direction:column;align-items:center;padding:48px 0 60px;gap:12px;min-height:60vh;justify-content:center;}
 .tame-arrow{display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.3;}
 .tame-arrow svg{animation:bounce-down .9s ease-in-out infinite;}
 .tame-arrow svg:nth-child(2){animation-delay:.15s;}
 .tame-arrow svg:nth-child(3){animation-delay:.3s;}
 @keyframes bounce-down{0%,100%{transform:translateY(0);opacity:.4;}50%{transform:translateY(4px);opacity:1;}}
 .tame-text{font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);opacity:.4;}
-
 .reward-reveal{
   background:var(--yellow);border-radius:var(--r);
   padding:22px 20px 20px;margin-bottom:10px;
   position:relative;overflow:hidden;
   opacity:0;transform:translateY(16px);
-  transition:opacity .6s ease, transform .6s ease;
+  transition:opacity .6s ease,transform .6s ease;
 }
 .reward-reveal.visible{opacity:1;transform:translateY(0);}
 .reward-deco{position:absolute;right:12px;bottom:10px;opacity:.1;}
 .reward-reveal-label{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:rgba(28,28,26,.5);margin-bottom:8px;}
 .reward-reveal-text{font-size:18px;font-weight:800;line-height:1.5;color:var(--ink);}
 .reward-reveal-score{font-size:11px;font-weight:700;color:rgba(28,28,26,.5);margin-top:8px;}
-
 .reward-ladder{display:flex;flex-direction:column;}
 .ladder-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--ink3);}
 .ladder-row:last-child{border-bottom:none;}
@@ -279,6 +251,22 @@ body::after{
 </head>
 <body>
 
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-title">2026 Goal Challenge</div>
+  <div class="login-sub">ログインして続ける</div>
+  <div class="login-field">
+    <label class="login-label">メールアドレス</label>
+    <input class="login-input" id="login-email" type="email" autocomplete="email" placeholder="example@email.com"/>
+  </div>
+  <div class="login-field">
+    <label class="login-label">パスワード</label>
+    <input class="login-input" id="login-pass" type="password" autocomplete="current-password" placeholder="••••••••"/>
+  </div>
+  <button class="login-btn" id="login-btn">ログイン</button>
+  <div class="login-err" id="login-err"></div>
+</div>
+
 <!-- FIELD -->
 <div class="field" id="field">
   <div class="field-bg active" data-s="spring"></div>
@@ -316,7 +304,6 @@ body::after{
 
 <!-- PAGES -->
 <div class="pages">
-
   <!-- BOARD -->
   <div class="page active" id="page-board">
     <div class="board-wrap">
@@ -363,7 +350,6 @@ body::after{
       <div class="lock-sub">年末の忘年会まで<br>お楽しみに。</div>
       <div class="lock-hint">（アイコンを5回タップで確認できます）</div>
     </div>
-
     <div class="reward-content" id="reward-content">
       <div class="r-section">
         <div class="r-label">Achievement</div>
@@ -382,12 +368,10 @@ body::after{
           </div>
         </div>
       </div>
-
       <div class="r-section">
         <div class="r-label">Category</div>
         <div id="cat-bars"></div>
       </div>
-
       <div class="r-section">
         <div class="r-label">Comparison</div>
         <div class="pie-wrap">
@@ -417,16 +401,14 @@ body::after{
           </div>
         </div>
       </div>
-
       <div class="r-section">
         <div class="monthly-head">
           <div class="r-label" style="margin-bottom:0">Monthly</div>
-          <div class="monthly-note">仮データ（Supabase接続後に更新）</div>
+          <div class="monthly-note" id="monthly-note"></div>
         </div>
         <div class="monthly-bars" id="monthly-bars"></div>
         <div style="display:flex;gap:3px;margin-top:5px;" id="monthly-labels"></div>
       </div>
-
       <div class="reward-tame">
         <div class="tame-text">Scroll for Reward</div>
         <div class="tame-arrow">
@@ -436,7 +418,6 @@ body::after{
         </div>
         <img src="./バンザイ.png" style="width:180px;margin-top:16px;">
       </div>
-
       <div class="reward-reveal" id="reward-reveal">
         <svg class="reward-deco" width="52" height="60" viewBox="0 0 52 60" fill="none">
           <rect x="2" y="18" width="48" height="38" rx="4" fill="rgba(28,28,26,.7)"/>
@@ -449,12 +430,10 @@ body::after{
         <div class="reward-reveal-text" id="reward-text">—</div>
         <div class="reward-reveal-score" id="reward-score"></div>
       </div>
-
       <div class="r-section">
         <div class="r-label">Reward Ladder</div>
         <div class="reward-ladder" id="reward-ladder"></div>
       </div>
-
       <div class="safe-bottom"></div>
     </div>
   </div>
@@ -475,56 +454,68 @@ body::after{
 <div class="toast" id="toast"></div>
 
 <script>
-const GOALS={
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  SUPABASE（ここを書き換える）
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const SUPABASE_URL = 'ここにProject URL';
+const SUPABASE_KEY = 'ここにanon key';
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:false}
+});
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  MASTER DATA
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const GOALS_MASTER={
   az:[
-    {id:'az1',cat:'やりたいこと',text:'ゴルフでコースデビュー',done:false},
-    {id:'az2',cat:'やりたいこと',text:'毎月のリフレッシュデーをつづける',done:false},
-    {id:'az3',cat:'やりたいこと',text:'風邪をひかない',done:false},
-    {id:'az4',cat:'やりたいこと',text:'しょっちゃんが食べたい料理を月1回つくる',done:false},
-    {id:'az5',cat:'やりたいこと',text:'めた族で旅行',done:false},
-    {id:'az6',cat:'行きたい場所',text:'福岡旅行',done:false},
-    {id:'az7',cat:'行きたい場所',text:'一鶴',done:false},
-    {id:'az8',cat:'行きたい場所',text:'ときめくホテルで紹介の素敵なホテル',done:false},
-    {id:'az9',cat:'行きたい場所',text:'宇都宮か浜松で餃子旅',done:false},
-    {id:'az10',cat:'行きたい場所',text:'韓国の31',done:false},
-    {id:'az11',cat:'会いたい人',text:'まだ会ってない翔馬の友達',done:false},
-    {id:'az12',cat:'会いたい人',text:'芸人の単独ライブ',done:false},
-    {id:'az13',cat:'会いたい人',text:'オーケストラの演奏',done:false},
-    {id:'az14',cat:'会いたい人',text:'クロアチア人',done:false},
-    {id:'az15',cat:'会いたい人',text:'家族の写真を家に飾る',done:false},
-    {id:'az16',cat:'ほしいもの',text:'大きめのショートダウン',done:false},
-    {id:'az17',cat:'ほしいもの',text:'ローファー',done:false},
-    {id:'az18',cat:'ほしいもの',text:'普段使いできるハンドバッグ',done:false},
-    {id:'az19',cat:'ほしいもの',text:'家',done:false},
-    {id:'az20',cat:'ほしいもの',text:'ブレスレット',done:false},
+    {id:'az1',cat:'やりたいこと',text:'ゴルフでコースデビュー'},
+    {id:'az2',cat:'やりたいこと',text:'毎月のリフレッシュデーをつづける'},
+    {id:'az3',cat:'やりたいこと',text:'風邪をひかない'},
+    {id:'az4',cat:'やりたいこと',text:'しょっちゃんが食べたい料理を月1回つくる'},
+    {id:'az5',cat:'やりたいこと',text:'めた族で旅行'},
+    {id:'az6',cat:'行きたい場所',text:'福岡旅行'},
+    {id:'az7',cat:'行きたい場所',text:'一鶴'},
+    {id:'az8',cat:'行きたい場所',text:'ときめくホテルで紹介の素敵なホテル'},
+    {id:'az9',cat:'行きたい場所',text:'宇都宮か浜松で餃子旅'},
+    {id:'az10',cat:'行きたい場所',text:'韓国の31'},
+    {id:'az11',cat:'会いたい人',text:'まだ会ってない翔馬の友達'},
+    {id:'az12',cat:'会いたい人',text:'芸人の単独ライブ'},
+    {id:'az13',cat:'会いたい人',text:'オーケストラの演奏'},
+    {id:'az14',cat:'会いたい人',text:'クロアチア人'},
+    {id:'az15',cat:'会いたい人',text:'家族の写真を家に飾る'},
+    {id:'az16',cat:'ほしいもの',text:'大きめのショートダウン'},
+    {id:'az17',cat:'ほしいもの',text:'ローファー'},
+    {id:'az18',cat:'ほしいもの',text:'普段使いできるハンドバッグ'},
+    {id:'az19',cat:'ほしいもの',text:'家'},
+    {id:'az20',cat:'ほしいもの',text:'ブレスレット'},
   ],
   sh:[
-    {id:'sh1',cat:'やりたいこと',text:'ゴルフでコースデビュー',done:false},
-    {id:'sh2',cat:'やりたいこと',text:'将来のキャリアにつながる挑戦（大学院受験）',done:false},
-    {id:'sh3',cat:'やりたいこと',text:'スケボーでオーリーできるようになる',done:false},
-    {id:'sh4',cat:'やりたいこと',text:'写真をインスタやアルバムとして残す',done:false},
-    {id:'sh5',cat:'やりたいこと',text:'友達が集まるときに料理をふるまう',done:false},
-    {id:'sh6',cat:'行きたい場所',text:'初夏に剣山（徳島）',done:false},
-    {id:'sh7',cat:'行きたい場所',text:'オーケストラの演奏',done:false},
-    {id:'sh8',cat:'行きたい場所',text:'淡路の釣りキャンスポット',done:false},
-    {id:'sh9',cat:'行きたい場所',text:'リノベ済みマンション・戸建て見学',done:false},
-    {id:'sh10',cat:'行きたい場所',text:'歯医者',done:false},
-    {id:'sh11',cat:'会いたい人',text:'ばあちゃん2人（4月〜GW）',done:false},
-    {id:'sh12',cat:'会いたい人',text:'スケボーの師匠になるような人',done:false},
-    {id:'sh13',cat:'会いたい人',text:'バブアー着てるあずみ',done:false},
-    {id:'sh14',cat:'会いたい人',text:'家探しの参考になる人・田中先生',done:false},
-    {id:'sh15',cat:'会いたい人',text:'ワイン通な人',done:false},
-    {id:'sh16',cat:'ほしいもの',text:'仕事で使えるおしゃれなセットアップ',done:false},
-    {id:'sh17',cat:'ほしいもの',text:'コーヒーメーカー・マグカップ',done:false},
-    {id:'sh18',cat:'ほしいもの',text:'ブレスレット',done:false},
-    {id:'sh19',cat:'ほしいもの',text:'仲野太賀っぽくなれるアイテム',done:false},
-    {id:'sh20',cat:'ほしいもの',text:'資産運用につながる株',done:false},
+    {id:'sh1',cat:'やりたいこと',text:'ゴルフでコースデビュー'},
+    {id:'sh2',cat:'やりたいこと',text:'将来のキャリアにつながる挑戦（大学院受験）'},
+    {id:'sh3',cat:'やりたいこと',text:'スケボーでオーリーできるようになる'},
+    {id:'sh4',cat:'やりたいこと',text:'写真をインスタやアルバムとして残す'},
+    {id:'sh5',cat:'やりたいこと',text:'友達が集まるときに料理をふるまう'},
+    {id:'sh6',cat:'行きたい場所',text:'初夏に剣山（徳島）'},
+    {id:'sh7',cat:'行きたい場所',text:'オーケストラの演奏'},
+    {id:'sh8',cat:'行きたい場所',text:'淡路の釣りキャンスポット'},
+    {id:'sh9',cat:'行きたい場所',text:'リノベ済みマンション・戸建て見学'},
+    {id:'sh10',cat:'行きたい場所',text:'歯医者'},
+    {id:'sh11',cat:'会いたい人',text:'ばあちゃん2人（4月〜GW）'},
+    {id:'sh12',cat:'会いたい人',text:'スケボーの師匠になるような人'},
+    {id:'sh13',cat:'会いたい人',text:'バブアー着てるあずみ'},
+    {id:'sh14',cat:'会いたい人',text:'家探しの参考になる人・田中先生'},
+    {id:'sh15',cat:'会いたい人',text:'ワイン通な人'},
+    {id:'sh16',cat:'ほしいもの',text:'仕事で使えるおしゃれなセットアップ'},
+    {id:'sh17',cat:'ほしいもの',text:'コーヒーメーカー・マグカップ'},
+    {id:'sh18',cat:'ほしいもの',text:'ブレスレット'},
+    {id:'sh19',cat:'ほしいもの',text:'仲野太賀っぽくなれるアイテム'},
+    {id:'sh20',cat:'ほしいもの',text:'資産運用につながる株'},
   ]
 };
 const CATS=['やりたいこと','行きたい場所','会いたい人','ほしいもの'];
 const REWARDS=[
-  {min:0,text:'まずは1個ずつ積み上げていこう'},
-  {min:5,text:'近所のお気に入りカフェでゆっくりランチ'},
+  {min:0, text:'まずは1個ずつ積み上げていこう'},
+  {min:5, text:'近所のお気に入りカフェでゆっくりランチ'},
   {min:10,text:'行きたかったレストランでディナー'},
   {min:16,text:'気になってたスパか温泉で1日のんびり'},
   {min:22,text:'ちょっといい家電か家具をひとつ'},
@@ -538,31 +529,77 @@ const SEASONS=[
   {name:'Autumn',s:'autumn',max:30},
   {name:'Winter',s:'winter',max:40},
 ];
-const MONTHLY_DUMMY=[0,1,3,2,4,3,5,2,4,6,3,2];
 
-let goals=JSON.parse(JSON.stringify(GOALS));
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  STATE
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let goals={
+  az:GOALS_MASTER.az.map(g=>({...g,done:false,achieved_at:null})),
+  sh:GOALS_MASTER.sh.map(g=>({...g,done:false,achieved_at:null})),
+};
 let editTarget=null,lockTaps=0,lockTimer=null,unlocked=false,rewardFired=false;
 
-function load(){
-  try{
-    const s=localStorage.getItem('g2026v4');
-    if(!s)return;
-    const d=JSON.parse(s);
-    ['az','sh'].forEach(p=>{
-      d[p]?.forEach(r=>{
-        const g=goals[p].find(g=>g.id===r.id);
-        if(g){g.done=r.done;if(r.text)g.text=r.text;}
-      });
-    });
-  }catch(e){}
-}
-function save(){
-  localStorage.setItem('g2026v4',JSON.stringify({
-    az:goals.az.map(g=>({id:g.id,done:g.done,text:g.text})),
-    sh:goals.sh.map(g=>({id:g.id,done:g.done,text:g.text})),
-  }));
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  AUTH
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+async function initAuth(){
+  const {data:{session}}=await db.auth.getSession();
+  if(session){
+    showApp();
+    await loadFromSupabase();
+    updateField();renderBoard();calcCountdown();
+  }else{
+    document.getElementById('login-screen').classList.remove('hidden');
+  }
 }
 
+document.getElementById('login-btn').addEventListener('click',async()=>{
+  const email=document.getElementById('login-email').value.trim();
+  const pass=document.getElementById('login-pass').value;
+  const errEl=document.getElementById('login-err');
+  errEl.textContent='';
+  if(!email||!pass){errEl.textContent='メールアドレスとパスワードを入力してください';return;}
+  document.getElementById('login-btn').textContent='ログイン中…';
+  const {error}=await db.auth.signInWithPassword({email,password:pass});
+  document.getElementById('login-btn').textContent='ログイン';
+  if(error){errEl.textContent='メールアドレスまたはパスワードが違います';return;}
+  showApp();
+  await loadFromSupabase();
+  updateField();renderBoard();calcCountdown();
+});
+
+function showApp(){
+  document.getElementById('login-screen').classList.add('hidden');
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  SUPABASE CRUD
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+async function loadFromSupabase(){
+  const {data,error}=await db.from('goals2026').select('*');
+  if(error||!data)return;
+  ['az','sh'].forEach(p=>{
+    goals[p].forEach(g=>{
+      const row=data.find(r=>r.id===g.id);
+      if(row){g.done=row.done;g.text=row.text;g.achieved_at=row.achieved_at;}
+    });
+  });
+}
+
+async function upsertGoal(g){
+  await db.from('goals2026').upsert({
+    id:g.id,
+    person:g.id.startsWith('az')?'az':'sh',
+    done:g.done,
+    text:g.text,
+    achieved_at:g.achieved_at,
+    updated_at:new Date().toISOString(),
+  },{onConflict:'id'});
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  UI
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function switchTab(t){
   ['board','reward'].forEach(k=>{
     document.getElementById('tab-'+k).classList.toggle('active',k===t);
@@ -595,14 +632,11 @@ function renderBoard(){
     for(let i=0;i<maxLen;i++){
       const row=document.createElement('div');
       row.className='cat-rows';
-      const colAz=document.createElement('div');
-      colAz.className='goal-col-wrap';
+      const colAz=document.createElement('div');colAz.className='goal-col-wrap';
       if(az[i])colAz.appendChild(makeGoal('az',az[i]));
-      const colSh=document.createElement('div');
-      colSh.className='goal-col-wrap';
+      const colSh=document.createElement('div');colSh.className='goal-col-wrap';
       if(sh[i])colSh.appendChild(makeGoal('sh',sh[i]));
-      row.appendChild(colAz);
-      row.appendChild(colSh);
+      row.appendChild(colAz);row.appendChild(colSh);
       sec.appendChild(row);
     }
     body.appendChild(sec);
@@ -635,10 +669,11 @@ function updateCounts(){
   });
 }
 
-function toggle(p,id){
+async function toggle(p,id){
   const g=goals[p].find(g=>g.id===id);
   if(!g)return;
-  g.done=!g.done;save();
+  g.done=!g.done;
+  g.achieved_at=g.done?new Date().toISOString():null;
   const chk=document.getElementById('chk-'+id);
   const txt=document.getElementById('gtxt-'+id);
   if(chk)chk.className='chk'+(g.done?' '+p:'');
@@ -650,6 +685,7 @@ function toggle(p,id){
     if([5,10,16,22,28,34,40].includes(t))confetti();
     toast('✓ '+g.text);
   }
+  await upsertGoal(g);
 }
 
 function totalDone(){return goals.az.filter(g=>g.done).length+goals.sh.filter(g=>g.done).length;}
@@ -671,11 +707,7 @@ function renderRoad(t){
   const track=document.getElementById('road-track');
   track.innerHTML='';
   for(let i=0;i<40;i++){
-    if(i>0&&i%10===0){
-      const d=document.createElement('div');
-      d.className='road-div';
-      track.appendChild(d);
-    }
+    if(i>0&&i%10===0){const d=document.createElement('div');d.className='road-div';track.appendChild(d);}
     const s=document.createElement('div');
     s.className='road-step'+(i<t?' done':'')+(i===t?' current':'');
     track.appendChild(s);
@@ -694,6 +726,9 @@ function animChar(){
   setTimeout(()=>img.classList.remove('walk'),900);
 }
 
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  REWARD
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 document.getElementById('lock-tap').addEventListener('click',()=>{
   lockTaps++;clearTimeout(lockTimer);
   lockTimer=setTimeout(()=>lockTaps=0,2000);
@@ -705,6 +740,19 @@ document.getElementById('lock-tap').addEventListener('click',()=>{
     setTimeout(setupScrollTrigger,100);
   }
 });
+
+function buildMonthlyData(){
+  const counts=Array(12).fill(0);
+  ['az','sh'].forEach(p=>{
+    goals[p].forEach(g=>{
+      if(g.done&&g.achieved_at){
+        const m=new Date(g.achieved_at).getMonth();
+        counts[m]++;
+      }
+    });
+  });
+  return counts;
+}
 
 function renderReward(){
   const az=goals.az.filter(g=>g.done).length;
@@ -734,12 +782,15 @@ function renderReward(){
   document.getElementById('pie-sh-pct').textContent=Math.round(sh/20*100)+'%';
   document.getElementById('pie-center').textContent=Math.round(total/40*100)+'%';
 
+  const monthlyData=buildMonthlyData();
+  const hasRealData=monthlyData.some(v=>v>0);
+  document.getElementById('monthly-note').textContent=hasRealData?'':'まだ達成記録がありません';
   const mBars=document.getElementById('monthly-bars');
   const mLbls=document.getElementById('monthly-labels');
   mBars.innerHTML='';mLbls.innerHTML='';
   const months=['J','F','M','A','M','J','J','A','S','O','N','D'];
-  const maxV=Math.max(...MONTHLY_DUMMY,1);
-  MONTHLY_DUMMY.forEach((v,i)=>{
+  const maxV=Math.max(...monthlyData,1);
+  monthlyData.forEach((v,i)=>{
     const pct=v/maxV*100;
     mBars.innerHTML+=`<div class="m-col"><div class="m-track"><div class="m-fill" style="height:${pct}%"></div></div></div>`;
     mLbls.innerHTML+=`<div style="flex:1;text-align:center;font-size:7px;font-weight:700;color:var(--ink2)">${months[i]}</div>`;
@@ -769,8 +820,7 @@ function setupScrollTrigger(){
   if(!reveal||rewardFired)return;
   const check=()=>{
     const rect=reveal.getBoundingClientRect();
-    const inView=rect.top<window.innerHeight*0.85;
-    if(inView){
+    if(rect.top<window.innerHeight*0.85){
       reveal.classList.add('visible');
       if(!rewardFired){rewardFired=true;confetti();}
       page.removeEventListener('scroll',check);
@@ -780,6 +830,9 @@ function setupScrollTrigger(){
   check();
 }
 
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  MODAL
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function openModal(p,id){
   const g=goals[p].find(g=>g.id===id);
   if(!g)return;
@@ -789,25 +842,30 @@ function openModal(p,id){
   setTimeout(()=>document.getElementById('modal-input').focus(),320);
 }
 function closeModal(){document.getElementById('modal-ov').classList.remove('on');editTarget=null;}
-function saveModal(){
+async function saveModal(){
   if(!editTarget)return;
   const v=document.getElementById('modal-input').value.trim();
   if(!v)return;
   const g=goals[editTarget.p].find(g=>g.id===editTarget.id);
-  if(g)g.text=v;save();
-  const el=document.getElementById('gtxt-'+editTarget.id);
-  if(el)el.textContent=v;
+  if(g){
+    g.text=v;
+    const el=document.getElementById('gtxt-'+editTarget.id);
+    if(el)el.textContent=v;
+    await upsertGoal(g);
+  }
   closeModal();toast('保存しました');
 }
 document.getElementById('modal-ov').addEventListener('click',function(e){if(e.target===this)closeModal();});
 
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  TOAST / CONFETTI
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 let toastTimer;
 function toast(msg){
   const el=document.getElementById('toast');
   el.textContent=msg;el.classList.add('on');
   clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('on'),2200);
 }
-
 function confetti(){
   const colors=['#D94F3D','#2E5FA3','#F2C94C','#3A7D5C','#E07B39'];
   for(let i=0;i<55;i++){
@@ -820,7 +878,10 @@ function confetti(){
   }
 }
 
-load();updateField();renderBoard();calcCountdown();
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  INIT
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+initAuth();
 </script>
 </body>
 </html>
