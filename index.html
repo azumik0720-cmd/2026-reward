@@ -24,15 +24,14 @@ body::after{
 
 /* ── FIELD ── */
 .field{
-  flex-shrink:0;height:250px;position:relative;overflow:hidden;
-  background:#D4EEC0; /* フォールバック */
+  flex-shrink:0;height:220px;position:relative;overflow:hidden;
+  background:#D4EEC0;
 }
 
 /* 背景画像レイヤー（4枚重ねてopacityで切り替え） */
 .field-bg{
   position:absolute;inset:0;
   background-size:cover;
-  background-position:center 30%;
   background-position:center bottom;
   background-repeat:no-repeat;
   opacity:0;transition:opacity .7s ease;
@@ -44,7 +43,7 @@ body::after{
 .field-bg[data-s="autumn"]{background-image:url('./Autum.png');}
 .field-bg[data-s="winter"]{background-image:url('./Winter.png');}
 
-/* UI overlay（バッジ・季節名） */
+/* UI overlay */
 .field-season{
   position:absolute;top:10px;left:14px;
   font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
@@ -59,7 +58,7 @@ body::after{
   z-index:6;border:1px solid rgba(255,255,255,.5);
 }
 
-/* ── キャラクター（画面左端に固定） ── */
+/* ── キャラクター ── */
 .char-fixed{
   position:absolute;left:50%;transform:translateX(-50%);bottom:28px;z-index:10;
   width:88px;height:100px;
@@ -84,9 +83,7 @@ body::after{
 .road-track{
   display:flex;align-items:center;gap:3px;
   transition:transform .65s cubic-bezier(.4,0,.2,1);
-  /* 画面中央（キャラ位置）からスタート：左に画面幅/2のpaddingで中央原点 */
-  padding-left:0;
-  padding-right:16px;
+  padding-left:0;padding-right:16px;
   will-change:transform;
 }
 .road-step{
@@ -94,25 +91,16 @@ body::after{
   background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);
   transition:background .3s,border-color .3s;
 }
-.road-step.done{
-  background:rgba(255,255,255,.7);border-color:rgba(255,255,255,.9);
-}
-.road-step.current{
-  background:#fff;border-color:#fff;
-  box-shadow:0 0 0 2.5px rgba(255,255,255,.55);
-}
-.road-div{
-  width:1.5px;height:22px;flex-shrink:0;
-  background:rgba(255,255,255,.5);border-radius:1px;margin:0 2px;
-}
+.road-step.done{background:rgba(255,255,255,.7);border-color:rgba(255,255,255,.9);}
+.road-step.current{background:#fff;border-color:#fff;box-shadow:0 0 0 2.5px rgba(255,255,255,.55);}
+.road-div{width:1.5px;height:22px;flex-shrink:0;background:rgba(255,255,255,.5);border-radius:1px;margin:0 2px;}
 
 /* ── TABS ── */
 .tabs{display:flex;flex-shrink:0;background:var(--paper);border-bottom:1px solid var(--ink3);}
 .tab{flex:1;padding:12px 6px 10px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.05em;color:var(--ink2);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
 .tab.active{color:var(--red);border-bottom-color:var(--red);font-size:13px;}
-.tab svg{transition:transform .2s;}
+.tab svg{transition:transform .2s;flex-shrink:0;}
 .tab.active svg{transform:scale(1.15);}
-.tab svg{flex-shrink:0;}
 
 /* ── PAGES ── */
 .pages{flex:1;overflow:hidden;position:relative;}
@@ -120,7 +108,7 @@ body::after{
 .page.active{display:block;}
 
 /* ══════════════════════
-   BOARD — パターン5
+   BOARD
 ══════════════════════ */
 .board-wrap{padding-bottom:calc(20px + env(safe-area-inset-bottom));}
 
@@ -130,6 +118,19 @@ body::after{
   position:sticky;top:0;z-index:10;
   background:var(--bg);
   border-bottom:none;
+<<<<<<< HEAD
+  padding:8px 0 0; /* ← 上余白はこの最初の数字で調整 */
+  gap:0;
+  overflow:visible;
+}
+.bh-person{display:flex;align-items:flex-end;gap:8px;flex:1;padding:0 12px;}
+.bh-person-right{flex-direction:row-reverse;justify-content:flex-start;}
+.bh-info{display:flex;flex-direction:column;gap:4px;}
+.bh-info-right{align-items:flex-end;}
+.bh-dot{display:none;}
+/* ← キャラ下端とカード上端の隙間はmargin-bottomで調整。0=ぴったり、正値=隙間、負値=被る */
+.bh-char{width:64px;height:80px;object-fit:contain;object-position:top;flex-shrink:0;margin-bottom:0;}
+=======
 <<<<<<< HEAD
   padding:15px 0 0; /* 上余白はここで調整 */
 =======
@@ -155,6 +156,7 @@ body::after{
 =======
 .bh-char{width:64px;height:80px;object-fit:contain;object-position:top;flex-shrink:0;margin-bottom:0px;} /* ③ キャラはみ出し */
 >>>>>>> c94fdcf1fb5006f64089ed44a0efc2cfabac648a
+>>>>>>> 68f08ccd4158dda1a5c38dfd304783b911fdd1d2
 .bh-name{font-size:18px;font-weight:800;letter-spacing:.04em;color:var(--ink);}
 .bh-countdown{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 8px 10px;gap:2px;flex-shrink:0;}
 .bh-cd-label{font-size:9px;color:#888;letter-spacing:.06em;white-space:nowrap;}
@@ -167,7 +169,7 @@ body::after{
 .bh-cnt-sh{background:var(--blue);}
 
 /* category section */
-.cat-section{margin:6px 10px 0;border-radius:10px;overflow:hidden;background:var(--white);position:relative;z-index:1;}
+.cat-section{margin:0 10px 0;border-radius:10px;overflow:hidden;background:var(--white);position:relative;z-index:1;}
 .cat-section + .cat-section{margin-top:6px;}
 
 .cat-header{
@@ -179,7 +181,6 @@ body::after{
 
 .cat-rows{display:grid;grid-template-columns:1fr 1fr;}
 
-/* goal row — 各カラム */
 .goal-col-wrap{padding:4px 6px;}
 .goal-col-wrap:first-child{border-right:0.5px solid var(--ink3);}
 
@@ -222,13 +223,11 @@ body::after{
 .r-section{background:var(--white);border-radius:var(--r);padding:16px;margin-bottom:10px;border:1px solid var(--ink3);}
 .r-label{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-bottom:12px;}
 
-/* stats */
 .stats-row{display:flex;gap:8px;}
 .stat-box{flex:1;background:var(--bg);border-radius:8px;padding:10px 10px 8px;text-align:center;}
 .stat-num{font-size:28px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;}
 .stat-sub{font-size:9px;color:var(--ink2);font-weight:700;margin-top:3px;}
 
-/* category bars */
 .bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
 .bar-row:last-child{margin-bottom:0;}
 .bar-label{font-size:10px;font-weight:700;color:var(--ink2);width:64px;flex-shrink:0;}
@@ -236,14 +235,12 @@ body::after{
 .bar-fill{height:100%;border-radius:99px;transition:width .8s ease;}
 .bar-val{font-size:10px;font-weight:800;width:28px;text-align:right;flex-shrink:0;}
 
-/* comparison: pie */
 .pie-wrap{display:flex;align-items:center;justify-content:center;gap:24px;}
 .pie-legend{display:flex;flex-direction:column;gap:12px;}
 .pie-leg{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;}
 .pie-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 .pie-leg-pct{margin-left:8px;font-size:18px;font-weight:800;}
 
-/* monthly bars */
 .monthly-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;}
 .monthly-note{font-size:9px;color:var(--ink2);font-weight:600;}
 .monthly-bars{display:flex;align-items:flex-end;gap:3px;height:56px;}
@@ -252,27 +249,17 @@ body::after{
 .m-fill{width:100%;border-radius:3px 3px 0 0;background:var(--green);opacity:.35;transition:height .7s ease;min-height:2px;}
 .m-lbl{font-size:7px;font-weight:700;color:var(--ink2);}
 
-/* reward reveal — タメ演出 */
 .reward-tame{
   display:flex;flex-direction:column;align-items:center;
-  padding:48px 0 60px;gap:12px;
-  min-height:60vh;
-  justify-content:center;
+  padding:48px 0 60px;gap:12px;min-height:60vh;justify-content:center;
 }
-.tame-arrow{
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  opacity:.3;
-}
+.tame-arrow{display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.3;}
 .tame-arrow svg{animation:bounce-down .9s ease-in-out infinite;}
 .tame-arrow svg:nth-child(2){animation-delay:.15s;}
 .tame-arrow svg:nth-child(3){animation-delay:.3s;}
-@keyframes bounce-down{
-  0%,100%{transform:translateY(0);opacity:.4;}
-  50%{transform:translateY(4px);opacity:1;}
-}
+@keyframes bounce-down{0%,100%{transform:translateY(0);opacity:.4;}50%{transform:translateY(4px);opacity:1;}}
 .tame-text{font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);opacity:.4;}
 
-/* reward reveal box */
 .reward-reveal{
   background:var(--yellow);border-radius:var(--r);
   padding:22px 20px 20px;margin-bottom:10px;
@@ -286,7 +273,6 @@ body::after{
 .reward-reveal-text{font-size:18px;font-weight:800;line-height:1.5;color:var(--ink);}
 .reward-reveal-score{font-size:11px;font-weight:700;color:rgba(28,28,26,.5);margin-top:8px;}
 
-/* ladder */
 .reward-ladder{display:flex;flex-direction:column;}
 .ladder-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--ink3);}
 .ladder-row:last-child{border-bottom:none;}
@@ -328,19 +314,15 @@ body::after{
 
 <!-- FIELD -->
 <div class="field" id="field">
-  <!-- 背景画像レイヤー（4枚、active切り替え） -->
   <div class="field-bg active" data-s="spring"></div>
   <div class="field-bg" data-s="summer"></div>
   <div class="field-bg" data-s="autumn"></div>
   <div class="field-bg" data-s="winter"></div>
-  <!-- キャラクター（左端固定） -->
   <div class="char-fixed">
     <img src="./キャラクター.PNG" id="char-img" alt="キャラクター"/>
   </div>
-  <!-- UI overlay -->
   <div class="field-season" id="field-season">Spring</div>
   <div class="field-badge" id="field-badge">0 / 40</div>
-  <!-- マススクロールレーン -->
   <div class="road-lane">
     <div class="road-track" id="road-track"></div>
   </div>
@@ -416,8 +398,6 @@ body::after{
     </div>
 
     <div class="reward-content" id="reward-content">
-
-      <!-- 達成数 -->
       <div class="r-section">
         <div class="r-label">Achievement</div>
         <div class="stats-row">
@@ -436,13 +416,11 @@ body::after{
         </div>
       </div>
 
-      <!-- カテゴリ別 -->
       <div class="r-section">
         <div class="r-label">Category</div>
         <div id="cat-bars"></div>
       </div>
 
-      <!-- Comparison（円グラフ） -->
       <div class="r-section">
         <div class="r-label">Comparison</div>
         <div class="pie-wrap">
@@ -473,7 +451,6 @@ body::after{
         </div>
       </div>
 
-      <!-- Monthly（別カード） -->
       <div class="r-section">
         <div class="monthly-head">
           <div class="r-label" style="margin-bottom:0">Monthly</div>
@@ -483,7 +460,6 @@ body::after{
         <div style="display:flex;gap:3px;margin-top:5px;" id="monthly-labels"></div>
       </div>
 
-      <!-- タメ演出 -->
       <div class="reward-tame">
         <div class="tame-text">Scroll for Reward</div>
         <div class="tame-arrow">
@@ -493,7 +469,6 @@ body::after{
         </div>
       </div>
 
-      <!-- ご褒美 -->
       <div class="reward-reveal" id="reward-reveal">
         <svg class="reward-deco" width="52" height="60" viewBox="0 0 52 60" fill="none">
           <rect x="2" y="18" width="48" height="38" rx="4" fill="rgba(28,28,26,.7)"/>
@@ -507,7 +482,6 @@ body::after{
         <div class="reward-reveal-score" id="reward-score"></div>
       </div>
 
-      <!-- ラダー -->
       <div class="r-section">
         <div class="r-label">Reward Ladder</div>
         <div class="reward-ladder" id="reward-ladder"></div>
@@ -621,7 +595,6 @@ function save(){
   }));
 }
 
-// ── TABS ──
 function switchTab(t){
   ['board','reward'].forEach(k=>{
     document.getElementById('tab-'+k).classList.toggle('active',k===t);
@@ -630,13 +603,12 @@ function switchTab(t){
   if(t==='reward'&&unlocked){renderReward();setupScrollTrigger();}
 }
 
-// ── BOARD ──
 function calcCountdown(){
-  const now = new Date();
-  const end = new Date('2026-12-31');
-  const diff = Math.ceil((end - now) / (1000*60*60*24));
-  const el = document.getElementById('cd-days');
-  if(el) el.textContent = diff > 0 ? diff : 0;
+  const now=new Date();
+  const end=new Date('2026-12-31');
+  const diff=Math.ceil((end-now)/(1000*60*60*24));
+  const el=document.getElementById('cd-days');
+  if(el)el.textContent=diff>0?diff:0;
 }
 
 function renderBoard(){
@@ -653,12 +625,10 @@ function renderBoard(){
     sec.appendChild(hdr);
     const rows=document.createElement('div');
     rows.className='cat-rows';
-    // 亜純カラム
     const colAz=document.createElement('div');
     colAz.className='goal-col-wrap';
     az.forEach(g=>colAz.appendChild(makeGoal('az',g)));
     rows.appendChild(colAz);
-    // 翔馬カラム
     const colSh=document.createElement('div');
     colSh.className='goal-col-wrap';
     sh.forEach(g=>colSh.appendChild(makeGoal('sh',g)));
@@ -694,7 +664,6 @@ function updateCounts(){
   });
 }
 
-// ── TOGGLE ──
 function toggle(p,id){
   const g=goals[p].find(g=>g.id===id);
   if(!g)return;
@@ -712,58 +681,48 @@ function toggle(p,id){
   }
 }
 
-// ── FIELD ──
 function totalDone(){return goals.az.filter(g=>g.done).length+goals.sh.filter(g=>g.done).length;}
-// マス1個の幅 + gap (CSS値と合わせる)
-const STEP_W = 45; // 42px + 3px gap
+const STEP_W=45;
 
 function updateField(){
-  const t = totalDone();
-  let season = SEASONS[0];
-  for(const s of SEASONS){ if(t <= s.max){ season = s; break; } season = s; }
-  // 背景レイヤーの切り替え
+  const t=totalDone();
+  let season=SEASONS[0];
+  for(const s of SEASONS){if(t<=s.max){season=s;break;}season=s;}
   document.querySelectorAll('.field-bg').forEach(el=>{
-    el.classList.toggle('active', el.dataset.s === season.s);
+    el.classList.toggle('active',el.dataset.s===season.s);
   });
-  document.getElementById('field-season').textContent = season.name;
-  document.getElementById('field-badge').textContent = t + ' / 40';
+  document.getElementById('field-season').textContent=season.name;
+  document.getElementById('field-badge').textContent=t+' / 40';
   renderRoad(t);
 }
 
 function renderRoad(t){
-  const track = document.getElementById('road-track');
-  track.innerHTML = '';
-  for(let i = 0; i < 40; i++){
-    if(i > 0 && i % 10 === 0){
-      const d = document.createElement('div');
-      d.className = 'road-div';
+  const track=document.getElementById('road-track');
+  track.innerHTML='';
+  for(let i=0;i<40;i++){
+    if(i>0&&i%10===0){
+      const d=document.createElement('div');
+      d.className='road-div';
       track.appendChild(d);
     }
-    const s = document.createElement('div');
-    s.className = 'road-step' + (i < t ? ' done' : '') + (i === t ? ' current' : '');
+    const s=document.createElement('div');
+    s.className='road-step'+(i<t?' done':'')+(i===t?' current':'');
     track.appendChild(s);
   }
-  // 現在地マスが左端（キャラ右側）に来るようにtrackをスライド
-  // 季節区切りdivのぶんも加算（1区切りあたり約7px）
-  const divCount = Math.floor(t / 10);
-  // padding-left:50vwで中央を原点にしているため、
-  // t個進んだ分だけ左にずらす（原点からのマイナスオフセット）
-  // 画面幅の半分をpadding-leftとして設定（キャラが中央固定のため）
-  // アクティブマス(幅42px)の中心をキャラ中心に合わせるため21px引く
-  const centerX = Math.round(window.innerWidth / 2) - 21;
-  track.style.paddingLeft = centerX + 'px';
-  const offset = -(t * STEP_W + divCount * 7);
-  track.style.transform = 'translateX(' + offset + 'px)';
+  const divCount=Math.floor(t/10);
+  const centerX=Math.round(window.innerWidth/2)-21;
+  track.style.paddingLeft=centerX+'px';
+  const offset=-(t*STEP_W+divCount*7);
+  track.style.transform='translateX('+offset+'px)';
 }
 
 function animChar(){
-  const img = document.getElementById('char-img');
-  if(!img) return;
+  const img=document.getElementById('char-img');
+  if(!img)return;
   img.classList.add('walk');
-  setTimeout(() => img.classList.remove('walk'), 900);
+  setTimeout(()=>img.classList.remove('walk'),900);
 }
 
-// ── REWARD ──
 document.getElementById('lock-tap').addEventListener('click',()=>{
   lockTaps++;clearTimeout(lockTimer);
   lockTimer=setTimeout(()=>lockTaps=0,2000);
@@ -784,7 +743,6 @@ function renderReward(){
   document.getElementById('r-sh-num').textContent=sh;
   document.getElementById('r-total-num').textContent=total;
 
-  // category bars
   const bars=document.getElementById('cat-bars');bars.innerHTML='';
   CATS.forEach(cat=>{
     const azC=goals.az.filter(g=>g.cat===cat&&g.done).length;
@@ -795,7 +753,6 @@ function renderReward(){
     bars.innerHTML+=`<div class="bar-row"><div class="bar-label">${cat}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:var(--green)"></div></div><div class="bar-val">${tot}/${max}</div></div>`;
   });
 
-  // pie
   const circ=2*Math.PI*38;
   const azArc=total>0?(az/total)*circ:0;
   const shArc=total>0?(sh/total)*circ:0;
@@ -806,7 +763,6 @@ function renderReward(){
   document.getElementById('pie-sh-pct').textContent=Math.round(sh/20*100)+'%';
   document.getElementById('pie-center').textContent=Math.round(total/40*100)+'%';
 
-  // monthly
   const mBars=document.getElementById('monthly-bars');
   const mLbls=document.getElementById('monthly-labels');
   mBars.innerHTML='';mLbls.innerHTML='';
@@ -818,13 +774,11 @@ function renderReward(){
     mLbls.innerHTML+=`<div style="flex:1;text-align:center;font-size:7px;font-weight:700;color:var(--ink2)">${months[i]}</div>`;
   });
 
-  // reward
   let reward=REWARDS[0];
   for(const r of REWARDS){if(total>=r.min)reward=r;}
   document.getElementById('reward-text').textContent=reward.text;
   document.getElementById('reward-score').textContent=`${total} / 40 達成`;
 
-  // ladder
   const ladder=document.getElementById('reward-ladder');ladder.innerHTML='';
   REWARDS.slice(1).forEach(r=>{
     const reached=total>=r.min;
@@ -838,7 +792,6 @@ function renderReward(){
   });
 }
 
-// ── SCROLL TRIGGER（リワード） ──
 function setupScrollTrigger(){
   const page=document.getElementById('page-reward');
   const reveal=document.getElementById('reward-reveal');
@@ -856,7 +809,6 @@ function setupScrollTrigger(){
   check();
 }
 
-// ── MODAL ──
 function openModal(p,id){
   const g=goals[p].find(g=>g.id===id);
   if(!g)return;
@@ -878,7 +830,6 @@ function saveModal(){
 }
 document.getElementById('modal-ov').addEventListener('click',function(e){if(e.target===this)closeModal();});
 
-// ── TOAST ──
 let toastTimer;
 function toast(msg){
   const el=document.getElementById('toast');
@@ -886,7 +837,6 @@ function toast(msg){
   clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('on'),2200);
 }
 
-// ── CONFETTI ──
 function confetti(){
   const colors=['#D94F3D','#2E5FA3','#F2C94C','#3A7D5C','#E07B39'];
   for(let i=0;i<55;i++){
@@ -899,7 +849,6 @@ function confetti(){
   }
 }
 
-// ── INIT ──
 load();updateField();renderBoard();calcCountdown();
 </script>
 </body>
