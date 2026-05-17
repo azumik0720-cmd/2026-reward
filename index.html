@@ -27,8 +27,6 @@ body::after{
   flex-shrink:0;height:220px;position:relative;overflow:hidden;
   background:#D4EEC0;
 }
-
-/* 背景画像レイヤー（4枚重ねてopacityで切り替え） */
 .field-bg{
   position:absolute;inset:0;
   background-size:cover;
@@ -43,7 +41,6 @@ body::after{
 .field-bg[data-s="autumn"]{background-image:url('./Autum.png');}
 .field-bg[data-s="winter"]{background-image:url('./Winter.png');}
 
-/* UI overlay */
 .field-season{
   position:absolute;top:10px;left:14px;
   font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
@@ -118,46 +115,17 @@ body::after{
   position:sticky;top:0;z-index:10;
   background:var(--bg);
   border-bottom:none;
-<<<<<<< HEAD
   padding:15px 0 0; /* ← 上余白はこの最初の数字で調整 */
   gap:0;
   overflow:visible;
 }
 .bh-person{display:flex;align-items:flex-end;gap:8px;flex:1;padding:0 12px;}
 .bh-person-right{flex-direction:row-reverse;justify-content:flex-start;}
-.bh-info{display:flex;flex-direction:column;gap:4px;padding-bottom:8px;}
+.bh-info{display:flex;flex-direction:column;gap:4px;padding-bottom:8px;} /* ← padding-bottomでバッジ・名前の高さ調整 */
 .bh-info-right{align-items:flex-end;}
 .bh-dot{display:none;}
-/* ← キャラ下端とカード上端の隙間はmargin-bottomで調整。0=ぴったり、正値=隙間、負値=被る */
-.bh-char{width:64px;height:80px;object-fit:contain;object-position:top;flex-shrink:0;margin-bottom:0;}
-=======
-<<<<<<< HEAD
-  padding:15px 0 0; /* 上余白はここで調整 */
-=======
-  padding:15px 12px 0; /* ⑤ 上paddingなし */
->>>>>>> c94fdcf1fb5006f64089ed44a0efc2cfabac648a
-  gap:0;
-  overflow:visible;
-}
-<<<<<<< HEAD
-.bh-person{display:flex;align-items:flex-end;gap:8px;flex:1;padding:0 12px;}
-.bh-person-right{flex-direction:row-reverse;justify-content:flex-start;}
-=======
-.bh-person{display:flex;align-items:flex-end;gap:8px;flex:1;}
-.bh-person-right{justify-content:flex-end;flex-direction:row-reverse;}
->>>>>>> c94fdcf1fb5006f64089ed44a0efc2cfabac648a
-.bh-info{display:flex;flex-direction:column;gap:4px;}
-.bh-info-right{align-items:flex-end;}
-.bh-person:first-child{border-right:none;}
-.bh-dot{display:none;}
-<<<<<<< HEAD
-/* キャラ：margin-bottomをゼロにしてはみ出しなし */
-.bh-char{width:64px;height:80px;object-fit:contain;object-position:top;flex-shrink:0;margin-bottom:0;}
-=======
-.bh-char{width:64px;height:80px;object-fit:contain;object-position:top;flex-shrink:0;margin-bottom:0px;} /* ③ キャラはみ出し */
->>>>>>> c94fdcf1fb5006f64089ed44a0efc2cfabac648a
->>>>>>> 68f08ccd4158dda1a5c38dfd304783b911fdd1d2
-.bh-name{font-size:18px;font-weight:900;letter-spacing:.04em;color:var(--ink);}
+.bh-char{width:64px;height:80px;object-fit:contain;object-position:top;flex-shrink:0;margin-bottom:0;} /* ← margin-bottomでキャラ下端の隙間調整 */
+.bh-name{font-size:18px;font-weight:800;letter-spacing:.04em;color:var(--ink);}
 .bh-countdown{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 8px 10px;gap:2px;flex-shrink:0;}
 .bh-cd-label{font-size:9px;color:#888;letter-spacing:.06em;white-space:nowrap;}
 .bh-cd-row{display:flex;align-items:baseline;gap:4px;}
