@@ -457,8 +457,8 @@ body::after{
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  SUPABASE（ここを書き換える）
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const SUPABASE_URL = 'https://ohqgpmtkhhixvnkrjbvb.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ocWdwbXRraGhpeHZua3JqYnZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDE4MjEsImV4cCI6MjA5MTg3NzgyMX0.tkm8eT9FCWGmKXPPVeDV6L6STEQ_jVnrNkcGDbRtSCg';
+const SUPABASE_URL = 'ここにProject URL';
+const SUPABASE_KEY = 'ここにanon key';
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:false}
 });
@@ -789,10 +789,10 @@ function renderReward(){
   const mLbls=document.getElementById('monthly-labels');
   mBars.innerHTML='';mLbls.innerHTML='';
   const months=['J','F','M','A','M','J','J','A','S','O','N','D'];
-  const maxV=Math.max(...monthlyData,1);
+  const maxV=10;
   monthlyData.forEach((v,i)=>{
-    const pct=v/maxV*100;
-    mBars.innerHTML+=`<div class="m-col"><div class="m-track"><div class="m-fill" style="height:${pct}%"></div></div>${v>0?`<div style="font-size:8px;font-weight:800;color:var(--green);margin-top:2px;">${v}</div>`:''}</div>`;
+    const pct=Math.min(v/maxV*100,100);
+    mBars.innerHTML+=`<div class="m-col"><div class="m-track"><div class="m-fill" style="height:${pct}%"></div></div></div>`;
     mLbls.innerHTML+=`<div style="flex:1;text-align:center;font-size:7px;font-weight:700;color:var(--ink2)">${months[i]}</div>`;
   });
 
