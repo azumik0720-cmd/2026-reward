@@ -253,7 +253,7 @@ body::after{
 
 <!-- LOGIN -->
 <div id="login-screen">
-  <div class="login-title">2026 Goal Challenge</div>
+  <div class="login-title">2026 REWARD</div>
   <div class="login-sub">ログインして続ける</div>
   <div class="login-field">
     <label class="login-label">メールアドレス</label>
@@ -457,8 +457,8 @@ body::after{
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  SUPABASE（ここを書き換える）
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const SUPABASE_URL = 'https://ohqgpmtkhhixvnkrjbvb.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ocWdwbXRraGhpeHZua3JqYnZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDE4MjEsImV4cCI6MjA5MTg3NzgyMX0.tkm8eT9FCWGmKXPPVeDV6L6STEQ_jVnrNkcGDbRtSCg';
+const SUPABASE_URL = 'ここにProject URL';
+const SUPABASE_KEY = 'ここにanon key';
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:false}
 });
@@ -576,7 +576,7 @@ function showApp(){
 //  SUPABASE CRUD
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 async function loadFromSupabase(){
-  const {data,error}=await db.from('goals2026').select('*');
+  const {data,error}=await db.from('2026_reward').select('*');
   if(error||!data)return;
   ['az','sh'].forEach(p=>{
     goals[p].forEach(g=>{
@@ -587,7 +587,7 @@ async function loadFromSupabase(){
 }
 
 async function upsertGoal(g){
-  await db.from('goals2026').upsert({
+  await db.from('2026_reward').upsert({
     id:g.id,
     person:g.id.startsWith('az')?'az':'sh',
     done:g.done,
