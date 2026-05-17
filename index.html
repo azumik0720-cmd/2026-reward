@@ -24,7 +24,7 @@ body::after{
 
 /* ── FIELD ── */
 .field{
-  flex-shrink:0;height:240px;position:relative;overflow:hidden;
+  flex-shrink:0;height:220px;position:relative;overflow:hidden;
   background:#D4EEC0; /* フォールバック */
 }
 
@@ -130,22 +130,26 @@ body::after{
   position:sticky;top:0;z-index:10;
   background:var(--bg);
   border-bottom:none;
-  padding:8px 12px 0;
+  padding:0 12px 0; /* ⑤ 上paddingなし */
   gap:0;
+  overflow:visible; /* ③ キャラはみ出し許可 */
+  min-height:72px;
 }
 .bh-person{display:flex;align-items:flex-end;gap:8px;flex:1;}
 .bh-person-right{justify-content:flex-end;flex-direction:row-reverse;margin-left:auto;}
 .bh-info{display:flex;flex-direction:column;gap:4px;}
 .bh-info-right{align-items:flex-end;}
-.bh-person:first-child{border-right:1px solid var(--ink3);padding-right:12px;}
+.bh-person:first-child{border-right:none;padding-right:12px;} /* ⑥ 縦線削除 */
 .bh-person:last-child{padding-left:12px;}
 .bh-dot{display:none;}
-.bh-char{width:52px;height:68px;object-fit:contain;object-position:top;flex-shrink:0;}
-.bh-name{font-size:15px;font-weight:800;letter-spacing:.04em;color:var(--ink);}
-.bh-countdown{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 12px 4px;gap:1px;flex-shrink:0;}
+.bh-char{width:64px;height:80px;object-fit:contain;object-position:top;flex-shrink:0;margin-bottom:-10px;} /* ③ キャラはみ出し */
+.bh-name{font-size:18px;font-weight:800;letter-spacing:.04em;color:var(--ink);}
+.bh-countdown{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 8px 10px;gap:2px;flex-shrink:0;}
 .bh-cd-label{font-size:9px;color:#888;letter-spacing:.06em;white-space:nowrap;}
-.bh-cd-days{font-size:28px;font-weight:800;color:var(--ink);line-height:1;}
-.bh-cd-unit{font-size:9px;color:#888;}
+.bh-cd-row{display:flex;align-items:baseline;gap:4px;}
+.bh-cd-pre{font-size:13px;font-weight:700;color:var(--ink);}
+.bh-cd-days{font-size:32px;font-weight:800;color:var(--ink);line-height:1;}
+.bh-cd-unit{font-size:13px;font-weight:700;color:var(--ink);}
 .bh-cnt{font-size:9px;font-weight:800;padding:2px 8px;border-radius:99px;display:inline-block;color:#fff;width:fit-content;}
 .bh-cnt-az{background:var(--red);}
 .bh-cnt-sh{background:var(--blue);}
@@ -359,19 +363,22 @@ body::after{
         <div class="bh-person">
           <img class="bh-char" src="./azumi2.PNG" alt="亜純"/>
           <div class="bh-info">
-            <div class="bh-name">亜純</div>
             <div class="bh-cnt bh-cnt-az" id="cnt-az">0/20</div>
+            <div class="bh-name">亜純</div>
           </div>
         </div>
         <div class="bh-countdown">
-          <div class="bh-cd-label">2026年末まで</div>
-          <div class="bh-cd-days" id="cd-days">—</div>
-          <div class="bh-cd-unit">日</div>
+          <div class="bh-cd-label">2026/12/31まで</div>
+          <div class="bh-cd-row">
+            <span class="bh-cd-pre">あと</span>
+            <span class="bh-cd-days" id="cd-days">—</span>
+            <span class="bh-cd-unit">日</span>
+          </div>
         </div>
         <div class="bh-person bh-person-right">
           <div class="bh-info bh-info-right">
-            <div class="bh-name">翔馬</div>
             <div class="bh-cnt bh-cnt-sh" id="cnt-sh">0/20</div>
+            <div class="bh-name">翔馬</div>
           </div>
           <img class="bh-char" src="./shoma2.PNG" alt="翔馬"/>
         </div>
