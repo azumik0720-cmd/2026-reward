@@ -147,7 +147,8 @@ body::after{
   border-bottom:0.5px solid var(--ink3);
 }
 
-.cat-rows{display:grid;grid-template-columns:1fr 1fr;}
+.cat-rows{display:grid;grid-template-columns:1fr 1fr;border-bottom:0.5px solid var(--ink3);}
+.cat-rows:last-child{border-bottom:none;}
 
 .goal-col-wrap{padding:4px 6px;}
 .goal-col-wrap:first-child{border-right:0.5px solid var(--ink3);}
@@ -591,17 +592,20 @@ function renderBoard(){
     hdr.className='cat-header';
     hdr.textContent=cat;
     sec.appendChild(hdr);
-    const rows=document.createElement('div');
-    rows.className='cat-rows';
-    const colAz=document.createElement('div');
-    colAz.className='goal-col-wrap';
-    az.forEach(g=>colAz.appendChild(makeGoal('az',g)));
-    rows.appendChild(colAz);
-    const colSh=document.createElement('div');
-    colSh.className='goal-col-wrap';
-    sh.forEach(g=>colSh.appendChild(makeGoal('sh',g)));
-    rows.appendChild(colSh);
-    sec.appendChild(rows);
+    const maxLen=Math.max(az.length,sh.length);
+    for(let i=0;i<maxLen;i++){
+      const row=document.createElement('div');
+      row.className='cat-rows';
+      const colAz=document.createElement('div');
+      colAz.className='goal-col-wrap';
+      if(az[i])colAz.appendChild(makeGoal('az',az[i]));
+      const colSh=document.createElement('div');
+      colSh.className='goal-col-wrap';
+      if(sh[i])colSh.appendChild(makeGoal('sh',sh[i]));
+      row.appendChild(colAz);
+      row.appendChild(colSh);
+      sec.appendChild(row);
+    }
     body.appendChild(sec);
   });
   updateCounts();
