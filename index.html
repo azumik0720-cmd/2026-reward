@@ -85,7 +85,7 @@ body::after{
   display:flex;align-items:center;gap:3px;
   transition:transform .65s cubic-bezier(.4,0,.2,1);
   /* 画面中央（キャラ位置）からスタート：左に画面幅/2のpaddingで中央原点 */
-  padding-left:50vw;
+  padding-left:0;
   padding-right:16px;
   will-change:transform;
 }
@@ -126,27 +126,32 @@ body::after{
 
 /* sticky person header */
 .board-header{
-  display:grid;grid-template-columns:1fr auto 1fr;
+  display:flex;align-items:flex-end;
   position:sticky;top:0;z-index:10;
   background:var(--bg);
   border-bottom:none;
-  padding:10px 14px 0;
+  padding:8px 12px 0;
   gap:0;
-  align-items:flex-end;
 }
-.bh-person{display:flex;align-items:flex-end;gap:6px;padding-bottom:0;}
-.bh-person-right{justify-content:flex-end;}
-.bh-info{display:flex;flex-direction:column;gap:3px;}
+.bh-person{display:flex;align-items:flex-end;gap:8px;flex:1;}
+.bh-person-right{justify-content:flex-end;flex-direction:row-reverse;margin-left:auto;}
+.bh-info{display:flex;flex-direction:column;gap:4px;}
 .bh-info-right{align-items:flex-end;}
 .bh-person:first-child{border-right:1px solid var(--ink3);padding-right:12px;}
 .bh-person:last-child{padding-left:12px;}
 .bh-dot{display:none;}
 .bh-char{width:52px;height:68px;object-fit:contain;object-position:top;flex-shrink:0;}
-.bh-name{font-size:11px;font-weight:800;letter-spacing:.04em;}
-.bh-cnt{margin-left:auto;font-size:10px;font-weight:800;color:var(--ink2);font-variant-numeric:tabular-nums;}
+.bh-name{font-size:15px;font-weight:800;letter-spacing:.04em;color:var(--ink);}
+.bh-countdown{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 12px 4px;gap:1px;flex-shrink:0;}
+.bh-cd-label{font-size:9px;color:#888;letter-spacing:.06em;white-space:nowrap;}
+.bh-cd-days{font-size:28px;font-weight:800;color:var(--ink);line-height:1;}
+.bh-cd-unit{font-size:9px;color:#888;}
+.bh-cnt{font-size:9px;font-weight:800;padding:2px 8px;border-radius:99px;display:inline-block;color:#fff;width:fit-content;}
+.bh-cnt-az{background:var(--red);}
+.bh-cnt-sh{background:var(--blue);}
 
 /* category section */
-.cat-section{margin:-12px 10px 0;border-radius:10px;overflow:hidden;background:var(--white);position:relative;z-index:2;}
+.cat-section{margin:6px 10px 0;border-radius:10px;overflow:hidden;background:var(--white);position:relative;z-index:1;}
 .cat-section + .cat-section{margin-top:6px;}
 
 .cat-header{
@@ -359,7 +364,7 @@ body::after{
           </div>
         </div>
         <div class="bh-countdown">
-          <div class="bh-cd-label">2026/12/31まで</div>
+          <div class="bh-cd-label">2026年末まで</div>
           <div class="bh-cd-days" id="cd-days">—</div>
           <div class="bh-cd-unit">日</div>
         </div>
@@ -724,9 +729,11 @@ function renderRoad(t){
   const divCount = Math.floor(t / 10);
   // padding-left:50vwで中央を原点にしているため、
   // t個進んだ分だけ左にずらす（原点からのマイナスオフセット）
-  // キャラ中央（50vw）からアクティブマス中心が来るよう、マス幅半分だけ左にずらす
-  const charOffset = 21; // マス幅42の半分
-  const offset = -(t * STEP_W + divCount * 7) + charOffset;
+  // 画面幅の半分をpadding-leftとして設定（キャラが中央固定のため）
+  // アクティブマス(幅42px)の中心をキャラ中心に合わせるため21px引く
+  const centerX = Math.round(window.innerWidth / 2) - 21;
+  track.style.paddingLeft = centerX + 'px';
+  const offset = -(t * STEP_W + divCount * 7);
   track.style.transform = 'translateX(' + offset + 'px)';
 }
 
@@ -874,7 +881,7 @@ function confetti(){
 }
 
 // ── INIT ──
-load();updateField();renderBoard();
+load();updateField();renderBoard();calcCountdown();
 </script>
 </body>
 </html>
