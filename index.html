@@ -85,17 +85,25 @@ body::after{
 }
 .road-step{
   width:42px;height:28px;flex-shrink:0;border-radius:6px;
-  background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);
+  background:linear-gradient(135deg,#C9B9A8 0%,#B8A898 40%,#C2B09F 60%,#BFB09F 100%);
+  border:1px solid rgba(255,255,255,.3);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -1px 0 rgba(0,0,0,.15);
   transition:background .3s,border-color .3s;
 }
-.road-step.done{background:rgba(255,255,255,.7);border-color:rgba(255,255,255,.9);}
-.road-step.current{background:#fff;border-color:#fff;box-shadow:0 0 0 2.5px rgba(255,255,255,.55);}
+.road-step.done{
+  background:linear-gradient(135deg,#C9B9A8 0%,#B8A898 40%,#C2B09F 60%,#BFB09F 100%);
+  border-color:rgba(255,255,255,.3);
+}
+.road-step.current{
+  background:#fff;border-color:#fff;
+  box-shadow:0 0 0 2.5px rgba(255,255,255,.7),0 0 8px rgba(255,255,255,.5);
+}
 .road-div{width:1.5px;height:22px;flex-shrink:0;background:rgba(255,255,255,.5);border-radius:1px;margin:0 2px;}
 
-/* ── TABS ── */
+/* ── TABS ── ②緑に変更 */
 .tabs{display:flex;flex-shrink:0;background:var(--paper);border-bottom:1px solid var(--ink3);}
 .tab{flex:1;padding:12px 6px 10px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.05em;color:var(--ink2);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
-.tab.active{color:var(--red);border-bottom-color:var(--red);font-size:13px;}
+.tab.active{color:var(--green);border-bottom-color:var(--green);font-size:13px;}
 .tab svg{transition:transform .2s;flex-shrink:0;}
 .tab.active svg{transform:scale(1.15);}
 
@@ -115,23 +123,23 @@ body::after{
   position:sticky;top:0;z-index:10;
   background:var(--bg);
   border-bottom:none;
-  padding:15px 0 0; /* ← 上余白はこの最初の数字で調整 */
+  padding:15px 0 0;
   gap:0;
   overflow:visible;
 }
 .bh-person{display:flex;align-items:flex-end;gap:8px;flex:1;padding:0 12px;}
 .bh-person-right{flex-direction:row-reverse;justify-content:flex-start;}
-.bh-info{display:flex;flex-direction:column;gap:4px;padding-bottom:8px;} /* ← padding-bottomでバッジ・名前の高さ調整 */
-.bh-info-right{align-items:flex-end;}
+.bh-info{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding-bottom:8px;} /* ①左揃え */
+.bh-info-right{align-items:flex-end;} /* ①右揃え */
 .bh-dot{display:none;}
-.bh-char{width:64px;height:80px;object-fit:contain;object-position:top;flex-shrink:0;margin-bottom:0;} /* ← margin-bottomでキャラ下端の隙間調整 */
+.bh-char{width:64px;height:80px;object-fit:contain;object-position:top;flex-shrink:0;margin-bottom:0;}
 .bh-name{font-size:18px;font-weight:800;letter-spacing:.04em;color:var(--ink);}
 .bh-countdown{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 8px 10px;gap:2px;flex-shrink:0;}
 .bh-cd-label{font-size:9px;color:#888;letter-spacing:.06em;white-space:nowrap;}
 .bh-cd-row{display:flex;align-items:baseline;gap:4px;}
-.bh-cd-pre{font-size:13px;font-weight:700;color:var(--ink);}
-.bh-cd-days{font-size:32px;font-weight:800;color:var(--ink);line-height:1;}
-.bh-cd-unit{font-size:13px;font-weight:700;color:var(--ink);}
+.bh-cd-pre{font-size:13px;font-weight:700;color:var(--green);} /* ③緑 */
+.bh-cd-days{font-size:32px;font-weight:800;color:var(--green);line-height:1;} /* ③緑 */
+.bh-cd-unit{font-size:13px;font-weight:700;color:var(--green);} /* ③緑 */
 .bh-cnt{font-size:9px;font-weight:800;padding:2px 8px;border-radius:99px;display:inline-block;color:#fff;width:fit-content;}
 .bh-cnt-az{background:var(--red);}
 .bh-cnt-sh{background:var(--blue);}
@@ -148,9 +156,9 @@ body::after{
 }
 
 .cat-rows{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;}
-
 .goal-col-wrap{padding:4px 6px;display:flex;align-items:center;}
 .goal-col-wrap:first-child{border-right:0.5px solid var(--ink3);}
+
 .goal{
   display:flex;align-items:center;gap:8px;
   padding:8px 10px;border-radius:7px;
